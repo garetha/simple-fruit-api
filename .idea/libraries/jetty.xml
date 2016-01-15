@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jetty">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/tools/jetty-hightide-7.2.2.v20101205/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/tools/jetty-hightide-7.2.2.v20101205/lib" recursive="false" />
+  </library>
+</component>

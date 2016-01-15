@@ -1,0 +1,11 @@
+the skeleton source is in src
+there is an ant build file with a war target, this will build a deployable war for you
+in the tools directory you will find ant and jetty, if you wish you can deploy this war in the jetty web apps folder
+
+alternatively you can execute the Bootstrap main method, to do this you will need to include tools/jetty-hightide-7.2.2.v20101205/lib directory contents in your classpath
+
+either way will result in a server deployed at http://localhost:8080/simplefruit/api
+
+endpoints:
+GET fruit: /fruit
+GET image: /image/{fruit_id}

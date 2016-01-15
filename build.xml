@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SimpleFruit" basedir="." default="war" xmlns:ac="antlib:net.sf.antcontrib">
+
+    <property environment="env"/>
+    <property file="build.properties"/>
+    <property name="war.filename" value="${ant.project.name}.war"/>
+
+    <path id="lib.ref">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}" failonerror="no"/>
+        <delete dir="${dist.dir}" failonerror="no"/>
+    </target>
+
+    <target name="war">
+        <delete failonerror="false">
+            <fileset dir="${dist.dir}" includes="*.*"/>
+        </delete>
+
+        <mkdir dir="${dist.dir}"/>
+
+
+        <delete dir="${build.classes.dir}/java"/>
+        <antcall target="compile.src" inheritall="true" inheritrefs="true">
+            <param name="classes.dir" value="${build.classes.dir}/java"/>
+            <param name="src.dir" value="${src.dir}"/>
+            <param name="copy.includes" value="**/*.properties **/*.xml"/>
+            <param name="additional.classpath" value=""/>
+        </antcall>
+
+        <antcall target="build-any-war" inheritall="true" inheritrefs="true">
+            <param name="war.name" value="${war.filename}"/>
+            <param name="war.classes" value="${build.classes.dir}/java"/>
+            <param name="web.xml" value="${warroot.dir}/WEB-INF/web.xml"/>
+            <param name="additional.library" value="${lib.dir}/*.jar" />
+        </antcall>
+
+        <copy file="${build.dir}/${war.filename}" todir="${dist.dir}"/>
+    </target>
+
+    <target name="build-any-war">
+        <delete file="${build.dir}/${war.name}"/>
+        <war destfile="${build.dir}/${war.name}" webxml="${web.xml}">
+            <manifest>
+                <attribute name="Built-By" value="${built.by}"/>
+                <attribute name="Sealed" value="${sealed}"/>
+                <attribute name="Specification-Title" value="${spec.title}"/>
+                <attribute name="Specification-Vendor" value="${spec.vendor}"/>
+                <attribute name="Specification-Version" value="${spec.version}"/>
+                <attribute name="Implementation-Title" value="${impl.title}"/>
+                <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+                <attribute name="Implementation-Version" value="${impl.version}"/>
+            </manifest>
+            <fileset dir="${warroot.dir}"/>
+            <classes dir="${war.classes}"/>
+            <lib file="${additional.library}"/>
+        </war>
+    </target>
+
+    <target name="compile.src">
+        <mkdir dir="${classes.dir}"/>
+        <javac debug="true" debuglevel="lines,vars,source" destdir="${classes.dir}" classpathref="lib.ref"
+               classpath="${additional.classpath}" fork="false" optimize="on" srcdir="${src.dir}"
+               includeantruntime="false"/>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" includes="${copy.includes}" excludes="${copy.excludes}"/>
+        </copy>
+    </target>
+
+    <target name="copy.src">
+        <delete dir="${build.src.dir}/java"/>
+        <delete dir="${build.src.dir}/warroot"/>
+
+        <mkdir dir="${build.src.dir}/java"/>
+        <mkdir dir="${build.dir}/warroot"/>
+
+        <copy todir="${build.src.dir}/java">
+            <fileset dir="${src.java.dir}"/>
+        </copy>
+
+        <copy todir="${build.dir}/warroot">
+            <fileset dir="${warroot.dir}"/>
+        </copy>
+    </target>
+
+
+
+
+</project>
