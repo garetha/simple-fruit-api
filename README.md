@@ -3,7 +3,9 @@ simple-fruit-api
 
 A very basic REST API that returns a list of fruit and images of fruit
 
-Run and go to http://localhost:8080/simplefruit/api
+To Run open in android studio or intelliJ and run Bootstrap.java
+
+The api is available at http://localhost:8080/simplefruit/api
 
 API Endpoints:
 ==============
